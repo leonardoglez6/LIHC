@@ -1,0 +1,35 @@
+THIS FILE CONTAINS THE METADATA ABOUT SYSTEM AND RUNTIME
+
+
+-------System Info-------
+Operating System Name: Darwin
+Nodename: Leows-MacBook-Air.local
+Release: 25.4.0
+Version: Darwin Kernel Version 25.4.0: Thu Mar 19 19:31:09 PDT 2026; root:xnu-12377.101.15~1/RELEASE_ARM64_T8132
+
+-------Python and Package Versions------- 
+Python Version: 3.12.13
+SigProfilerMatrixGenerator Version: 1.3.6
+SigProfilerPlotting version: 1.4.3
+matplotlib version: 3.10.8
+statsmodels version: 0.14.6
+scipy version: 1.17.1
+pandas version: 3.0.2
+numpy version: 2.4.4
+
+-------Vital Parameters Used for the execution -------
+Project: LIHC
+Genome: GRCh37
+Input File Path: ./results/SPMG/
+exome: True
+bed_file: None
+chrom_based: False
+plot: False
+tsb_stat: False
+seqInfo: False
+
+-------Date and Time Data------- 
+Date and Clock time when the execution started: 2026-05-15 01:33:32.071867
+
+
+-------Runtime Checkpoints------- 
