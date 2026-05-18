@@ -426,7 +426,7 @@ NFE2L2_total_plot <- SBS96_Activities_NFE2L2_filtered %>%
     'SBS40a' = 'firebrick1', 
     'SBS22a' = 'plum2'  
   )) +
-  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'NFE2L2 - Signature Activities') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
@@ -480,7 +480,7 @@ CRIP3_total_plot <- SBS96_Activities_CRIP3_filtered %>%
     'SBS40a' = 'firebrick1', 
     'SBS22a' = 'plum2'  
   )) +
-  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CRIP3 - Signature Activities') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
@@ -534,7 +534,7 @@ AXIN1_total_plot <- SBS96_Activities_AXIN1_filtered %>%
     'SBS40a' = 'firebrick1', 
     'SBS22a' = 'plum2'  
   )) +
-  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'AXIN1 - Signature Activities') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
@@ -587,7 +587,7 @@ TP53_total_plot <- SBS96_Activities_TP53_filtered %>%
     'SBS40a' = 'firebrick1', 
     'SBS22a' = 'plum2'  
   )) +
-  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'TP53 - Signature Activities') +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
