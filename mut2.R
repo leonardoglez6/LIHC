@@ -222,7 +222,7 @@ accuary_sig_act_plot <- ggplot(stats) +
   labs(x = 'Cosine Similarity') +
   theme_bw()
 
-ggsave(filename = paste0(figdir, "Accuary_signature_activities_plot.png"), plot = accuary_sig_act_plot)
+#ggsave(filename = paste0(figdir, "Accuary_signature_activities_plot.png"), plot = accuary_sig_act_plot)
 
 cat("\n****************\nAccuary of the signature activities plot completed.\n****************\n")
 
@@ -288,7 +288,7 @@ top_10_mut_samples_plot <- top_10_mutated_samples %>%
   labs(x = 'Samples')  +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
-ggsave(filename = paste0(figdir, "top_10_mut_samples.png"), plot = top_10_mut_samples_plot)
+#ggsave(filename = paste0(figdir, "top_10_mut_samples.png"), plot = top_10_mut_samples_plot)
 
 cat("\n****************\nAccuary of the signature activities percent stacked plot of teh top 10 mutated samples completed.\n****************\n")
 
@@ -346,6 +346,11 @@ SBS96_Activities_CTNNB1 = SBS96_Activities %>%
 SBS96_Activities_CTNNB1 %>%
   filter(Samples %in% Samples_with_CTNNB1_var$Tumor_Sample_Barcode)
 
+# Filter samples with CTNNB1 variants and add total mutations column
+SBS96_Activities_CTNNB1_filtered = SBS96_Activities_CTNNB1 %>%
+  filter(Samples %in% Samples_with_CTNNB1_var$Tumor_Sample_Barcode) %>%
+  mutate(Total = SBS5 + SBS40a + SBS22a)
+
 # now we are plotting the mutational burden (quantity of variants per sample) of the samples that contain a varianat in the most mutated region of CTNNB1 gene
 maf_LIHC_var_CTNNB1_sign = maf_LIHC %>% 
   filter(Tumor_Sample_Barcode %in% Samples_with_CTNNB1_var$Tumor_Sample_Barcode)
@@ -354,7 +359,26 @@ CTNNB1_sign <- ggplot(data = maf_LIHC_var_CTNNB1_sign) +
   geom_bar(mapping = aes(x = Tumor_Sample_Barcode)) +
   theme(axis.text.x = element_text(angle = 90))
 
+CTNNB1_total_plot <- SBS96_Activities_CTNNB1_filtered %>%
+  pivot_longer(cols = c(SBS5, SBS40a, SBS22a),
+               names_to = 'Signature',
+               values_to = 'Mutations') %>%
+  ggplot() +
+  aes(x = reorder(Samples, -Total), y = Mutations, fill = Signature) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c(
+    'SBS5'  = 'cornflowerblue', 
+    'SBS40a' = 'firebrick1', 
+    'SBS22a' = 'plum2'  
+  )) +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
 #ggsave(filename = paste0(figdir, "CTNNB1_sign.png"), CTNNB1_sign)
+#write.table(x = maf_LIHC_var_CTNNB1_sign, file = "CTNNB1_signature_activity.tsv", row.names = F, sep = '\t')
+ggsave(filename = paste0(figdir, "CTNNB1_signature_activity.png"), plot = CTNNB1_total_plot)
+
 
 # -- NFE2L2 --
 # From the initial dataset we only pick variants in NFE2L2
@@ -377,6 +401,11 @@ SBS96_Activities_NFE2L2 = SBS96_Activities %>%
 SBS96_Activities_NFE2L2 %>%
   filter(Samples %in% Samples_with_NFE2L2_var$Tumor_Sample_Barcode)
 
+# Filter samples with NFE2L2 variants and add total mutations column
+SBS96_Activities_NFE2L2_filtered = SBS96_Activities_NFE2L2 %>%
+  filter(Samples %in% Samples_with_NFE2L2_var$Tumor_Sample_Barcode) %>%
+  mutate(Total = SBS5 + SBS40a + SBS22a)
+
 # now we are plotting the mutational burden (quantity of variants per sample) of the samples that contain a varianat in the most mutated region of NFE2L2 gene
 maf_LIHC_var_NFE2L2_sign = maf_LIHC %>% 
   filter(Tumor_Sample_Barcode %in% Samples_with_NFE2L2_var$Tumor_Sample_Barcode)
@@ -385,7 +414,25 @@ NFE2L2_sign <- ggplot(data = maf_LIHC_var_NFE2L2_sign) +
   geom_bar(mapping = aes(x = Tumor_Sample_Barcode)) +
   theme(axis.text.x = element_text(angle = 90))
 
+NFE2L2_total_plot <- SBS96_Activities_NFE2L2_filtered %>%
+  pivot_longer(cols = c(SBS5, SBS40a, SBS22a),
+               names_to = 'Signature',
+               values_to = 'Mutations') %>%
+  ggplot() +
+  aes(x = reorder(Samples, -Total), y = Mutations, fill = Signature) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c(
+    'SBS5'  = 'cornflowerblue', 
+    'SBS40a' = 'firebrick1', 
+    'SBS22a' = 'plum2'  
+  )) +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
 #ggsave(filename = paste0(figdir, "NFE2L2_sign.png"), NFE2L2_sign)
+#write.table(x = maf_LIHC_var_NFE2L2_sign, file = "NFE2L2_signature_activity.tsv", row.names = F, sep = '\t')
+ggsave(filename = paste0(figdir, "NFE2L2_signature_activity.png"), plot = NFE2L2_total_plot)
 
 # -- CRIP3 --
 # From the initial dataset we only pick variants in CRIP3
@@ -408,6 +455,11 @@ SBS96_Activities_CRIP3 = SBS96_Activities %>%
 SBS96_Activities_CRIP3 %>%
   filter(Samples %in% Samples_with_CRIP3_var$Tumor_Sample_Barcode)
 
+# Filter samples with CRIP3 variants and add total mutations column
+SBS96_Activities_CRIP3_filtered = SBS96_Activities_CRIP3 %>%
+  filter(Samples %in% Samples_with_CRIP3_var$Tumor_Sample_Barcode) %>%
+  mutate(Total = SBS5 + SBS40a + SBS22a)
+
 # now we are plotting the mutational burden (quantity of variants per sample) of the samples that contain a varianat in the most mutated region of CRIP3 gene
 maf_LIHC_var_CRIP3_sign = maf_LIHC %>% 
   filter(Tumor_Sample_Barcode %in% Samples_with_CRIP3_var$Tumor_Sample_Barcode)
@@ -416,7 +468,25 @@ CRIP3_sign <- ggplot(data = maf_LIHC_var_CRIP3_sign) +
   geom_bar(mapping = aes(x = Tumor_Sample_Barcode)) +
   theme(axis.text.x = element_text(angle = 90))
 
+CRIP3_total_plot <- SBS96_Activities_CRIP3_filtered %>%
+  pivot_longer(cols = c(SBS5, SBS40a, SBS22a),
+               names_to = 'Signature',
+               values_to = 'Mutations') %>%
+  ggplot() +
+  aes(x = reorder(Samples, -Total), y = Mutations, fill = Signature) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c(
+    'SBS5'  = 'cornflowerblue', 
+    'SBS40a' = 'firebrick1', 
+    'SBS22a' = 'plum2'  
+  )) +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
 #ggsave(filename = paste0(figdir, "CRIP3_sign.png"), CRIP3_sign)
+#write.table(x = maf_LIHC_var_CRIP3_sign, file = "CRIP3_signature_activity.tsv", row.names = F, sep = '\t')
+ggsave(filename = paste0(figdir, "CRIP3_signature_activity.png"), plot = CRIP3_total_plot)
 
 # -- AXIN1 --
 # From the initial dataset we only pick variants in AXIN1
@@ -439,6 +509,11 @@ SBS96_Activities_AXIN1 = SBS96_Activities %>%
 SBS96_Activities_AXIN1 %>%
   filter(Samples %in% Samples_with_AXIN1_var$Tumor_Sample_Barcode)
 
+# Filter samples with ACIN1 variants and add total mutations column
+SBS96_Activities_AXIN1_filtered = SBS96_Activities_AXIN1 %>%
+  filter(Samples %in% Samples_with_AXIN1_var$Tumor_Sample_Barcode) %>%
+  mutate(Total = SBS5 + SBS40a + SBS22a)
+
 # now we are plotting the mutational burden (quantity of variants per sample) of the samples that contain a varianat in the most mutated region of AXIN1 gene
 maf_LIHC_var_AXIN1_sign = maf_LIHC %>% 
   filter(Tumor_Sample_Barcode %in% Samples_with_AXIN1_var$Tumor_Sample_Barcode)
@@ -447,7 +522,25 @@ AXIN1_sign <- ggplot(data = maf_LIHC_var_AXIN1_sign) +
   geom_bar(mapping = aes(x = Tumor_Sample_Barcode)) +
   theme(axis.text.x = element_text(angle = 90))
 
-ggsave(filename = paste0(figdir, "AXIN1_sign.png"), AXIN1_sign)
+AXIN1_total_plot <- SBS96_Activities_AXIN1_filtered %>%
+  pivot_longer(cols = c(SBS5, SBS40a, SBS22a),
+               names_to = 'Signature',
+               values_to = 'Mutations') %>%
+  ggplot() +
+  aes(x = reorder(Samples, -Total), y = Mutations, fill = Signature) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c(
+    'SBS5'  = 'cornflowerblue', 
+    'SBS40a' = 'firebrick1', 
+    'SBS22a' = 'plum2'  
+  )) +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+#ggsave(filename = paste0(figdir, "AXIN1_sign.png"), AXIN1_sign)
+#write.table(x = maf_LIHC_var_AXIN1_sign, file = "AXIN1_signature_activity.tsv", row.names = F, sep = '\t')
+ggsave(filename = paste0(figdir, "AXIN1_signature_activity.png"), plot = AXIN1_total_plot)
 
 # -- TP53 --
 # From the initial dataset we only pick variants in TP53
@@ -469,6 +562,11 @@ SBS96_Activities_TP53 = SBS96_Activities %>%
 SBS96_Activities_TP53 %>%
   filter(Samples %in% Samples_with_TP53_var$Tumor_Sample_Barcode)
 
+# Filter samples with TP53 variants and add total mutations column
+SBS96_Activities_TP53_filtered = SBS96_Activities_TP53 %>%
+  filter(Samples %in% Samples_with_TP53_var$Tumor_Sample_Barcode) %>%
+  mutate(Total = SBS5 + SBS40a + SBS22a)
+
 # now we are plotting the mutational burden (quantity of variants per sample) of the samples that contain a varianat in the most mutated region of TP53 gene
 maf_LIHC_var_TP53_sign = maf_LIHC %>% 
   filter(Tumor_Sample_Barcode %in% Samples_with_TP53_var$Tumor_Sample_Barcode)
@@ -477,8 +575,24 @@ TP53_sign <- ggplot(data = maf_LIHC_var_TP53_sign) +
   geom_bar(mapping = aes(x = Tumor_Sample_Barcode)) +
   theme(axis.text.x = element_text(angle = 90))
 
-ggsave(filename = paste0(figdir, "TP53_sign.png"), TP53_sign)
+TP53_total_plot <- SBS96_Activities_TP53_filtered %>%
+  pivot_longer(cols = c(SBS5, SBS40a, SBS22a),
+               names_to = 'Signature',
+               values_to = 'Mutations') %>%
+  ggplot() +
+  aes(x = reorder(Samples, -Total), y = Mutations, fill = Signature) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c(
+    'SBS5'  = 'cornflowerblue', 
+    'SBS40a' = 'firebrick1', 
+    'SBS22a' = 'plum2'  
+  )) +
+  labs(x = 'Sample', y = 'Number of mutations', title = 'CTNNB1 - Signature Activities') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 
-
+#ggsave(filename = paste0(figdir, "TP53_sign.png"), TP53_sign)
+#write.table(x = maf_LIHC_var_TP53_sign, file = "TP53_signature_activity.tsv", row.names = F, sep = '\t')
+ggsave(filename = paste0(figdir, "TP53_signature_activity.png"), plot = TP53_total_plot)
 
 
