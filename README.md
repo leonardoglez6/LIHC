@@ -2,7 +2,12 @@
 
 En este documento se presenta la informacion, referencias, figuras intermedias y codigos utilizados para escribir el articulo correspondiente
 
-- **Authors:** Román Cervantes Levario, Jair Emilianto Contreras Rivera and Leonardo Daniel González López
+- **Authors:**
+  - Román Cervantes Levario
+
+  -  Jair Emilianto Contreras Rivera
+  
+  - Leonardo Daniel González López
 
 - **Date:** 20/05/2026
 
